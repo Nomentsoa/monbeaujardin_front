@@ -1,0 +1,134 @@
+
+    <div class="card" [formGroup]="mainForm">
+        <div class="card-header title-page text-center">
+            Informations sur l'étudiant
+        </div>
+
+        <div class="form-control">
+            <div class="input-group mb-2">
+                <div class="form-floating">
+                    <input type="text" class="form-control" [ngClass]="{ 'is-invalid': errorNomEtudiant }" 
+                        id="nomEtudiant" placeholder="Nom de l'étudiant" formControlName="nom" required>
+                    <label for="nomEtudiant">Nom de l'étudiant</label>
+                    <div class="text-danger" *ngIf="errorNomEtudiant">{{ errorNomEtudiant }}</div>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" formControlName="prenom" [ngClass]="{ 'is-invalid': errorPrenomEtudiant }" id="prenomEtudiant" placeholder="Prénom(s) de l'étudiant">
+                    <label for="prenomEtudiant">Prénom(s) de l'étudiant</label>
+                    <div class="text-danger" *ngIf="errorPrenomEtudiant ">{{ errorPrenomEtudiant }}</div>
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="dateNaissanceEtudiant"  placeholder="Date de naissance" [ngClass]="{ 'is-invalid': errorDateNaissance }" formControlName="dateNaissance">
+                <label for="dateNaissanceEtudiant">Date de naissance</label>
+                <div class="text-danger" *ngIf="errorDateNaissance">{{ errorDateNaissance }}</div>
+            </div>
+
+            <div class="form-floating mb-3" formGroupName="genreGroup">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" formControlName="genre" type="radio" name="genre" id="radioGarcon"
+                        value="M" checked>
+                    <label class="form-check-label" for="radioGarcon">Garçon</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" formControlName="genre" type="radio" name="genre" id="radioFille"
+                        value="F">
+                    <label class="form-check-label" for="radioFille">Fille</label>
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="adresseEtudiant" formControlName="adresse" placeholder="Adresse du domicille" [ngClass]="{ 'is-invalid': errorAdresseEtudiant }">
+                <label for="adresseEtudiant">Adresse du domicille</label>
+                <div class="text-danger" *ngIf="errorAdresseEtudiant">{{ errorAdresseEtudiant }}</div>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="flexCheckDefault" formControlName="hideMereInformation">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Mère inconnue
+                </label>
+            </div>
+            <div *ngIf="!(hideMereInformation$ | async)" formGroupName="mereFormGroup">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="nomMere" id="nomMere" placeholder="Nom de la mére" [ngClass]="{ 'is-invalid': errorNomMere }">
+                    <label for="nomMere">Nom de la mère</label>
+                    <div class="text-danger" *ngIf="errorNomMere">{{ errorNomMere }}</div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="form-floating">
+                        <input type="text" maxlength="10" formControlName="numeroMere" class="form-control" id="numeroMere" placeholder="Numéro télephone de la mére" [ngClass]="{ 'is-invalid': errorNumeroMere }">
+                        <label for="numeroMere">Numéro télephone de la mère</label>
+                        <div class="text-danger" *ngIf="errorNumeroMere">{{ errorNumeroMere }}</div>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" formControlName="professionMere" id="professionMere" placeholder="Password">
+                        <label for="professionMere">Profession de la mère</label>
+                    </div>
+                </div>
+            </div>          
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="pereInconnu" formControlName="hidePereInformation">
+                <label class="form-check-label" for="pereInconnu">
+                    Père inconnu
+                </label>
+            </div>
+
+            <div *ngIf="!(hidePereInformation$ | async)" formGroupName="pereFormGroup">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="nomPere" id="nomPere" placeholder="Nom du père" [ngClass]="{ 'is-invalid': errorNomPere }">
+                    <label for="nomPere">Nom du père</label>
+                    <div class="text-danger" *ngIf="errorNomPere">{{ errorNomPere }}</div>
+                </div>
+    
+                <div class="input-group mb-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" formControlName="numeroPere" id="numeroPere" placeholder="Numéro télephone du pére" [ngClass]="{ 'is-invalid': errorNumeroPere }">
+                        <label for="numeroPere">Numéro télephone du père</label>
+                        <div class="text-danger" *ngIf="errorNumeroPere">{{ errorNumeroPere }}</div>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" formControlName="professionPere" id="professionPere" placeholder="Password">
+                        <label for="professionPere">Profession du père</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div *ngIf="isInfoMereHidden && isInfoPereHidden" formGroupName="tuteurFormGroup">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" formControlName="nomTuteur" id="nomTuteur" placeholder="Nom du tuteur légal" [ngClass]="{ 'is-invalid': errorNomTuteur }">
+                    <label for="nomTuteur">Nom du tuteur légal</label>
+                    <div class="text-danger" *ngIf="errorNomTuteur">{{ errorNomTuteur }}</div>
+                </div>
+    
+                <div class="input-group mb-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" formControlName="numeroTuteur" id="numeroTuteur"
+                            placeholder="Numéro du tuteur" [ngClass]="{ 'is-invalid': errorNumeroTuteur }">
+                        <label for="numeroTuteur">Numéro du tuteur</label>
+                        <div class="text-danger" *ngIf="errorNumeroTuteur">{{ errorNumeroTuteur }}</div>
+                    </div>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" formControlName="professionTuteur" id="professionTuteur" placeholder="Password">
+                        <label for="professionTuteur">Profession du tuteur</label>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="input-group">
+                <span class="input-group-text">Note supplémentaire</span>
+                <textarea class="form-control" formControlName="noteSupplementaire" aria-label="With textarea"></textarea>
+            </div>
+        </div>
+
+        <div class="card-footer text-body-secondary">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-outline-info btn-lg  me-md-2">Annuler</button>
+                <button type="submit" class="btn btn-outline-success btn-lg" (click)="onSubmit()">Enregistrer</button>
+               
+            </div>
+        </div>
+
+    </div>
